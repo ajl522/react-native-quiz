@@ -8,34 +8,37 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#36B1F0",
     flex: 1,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   text: {
     color: "#fff",
     fontSize: 25,
     textAlign: "center",
     letterSpacing: -0.02,
-    fontWeight: "600"
+    fontWeight: "600",
   },
   safearea: {
     flex: 1,
     marginTop: 100,
-    justifyContent: "space-between"
-  }
+    justifyContent: "space-between",
+  },
 });
 
 class Quiz extends React.Component {
-  state = {
-    correctCount: 0,
-    totalCount: this.props.navigation.getParam("questions", []).length,
-    activeQuestionIndex: 0,
-    answered: false,
-    answerCorrect: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      correctCount: 0,
+      totalCount: this.props.navigation.getParam("questions", []).length,
+      activeQuestionIndex: 0,
+      answered: false,
+      answerCorrect: false,
+    };
+  }
 
-  answer = correct => {
+  answer = (correct) => {
     this.setState(
-      state => {
+      (state) => {
         const nextState = { answered: true };
 
         if (correct) {
@@ -54,7 +57,7 @@ class Quiz extends React.Component {
   };
 
   nextQuestion = () => {
-    this.setState(state => {
+    this.setState((state) => {
       const nextIndex = state.activeQuestionIndex + 1;
 
       if (nextIndex >= state.totalCount) {
@@ -63,7 +66,7 @@ class Quiz extends React.Component {
 
       return {
         activeQuestionIndex: nextIndex,
-        answered: false
+        answered: false,
       };
     });
   };
@@ -76,7 +79,7 @@ class Quiz extends React.Component {
       <View
         style={[
           styles.container,
-          { backgroundColor: this.props.navigation.getParam("color") }
+          { backgroundColor: this.props.navigation.getParam("color") },
         ]}
       >
         <StatusBar barStyle="light-content" />
@@ -85,7 +88,7 @@ class Quiz extends React.Component {
             <Text style={styles.text}>{question.question}</Text>
 
             <ButtonContainer>
-              {question.answers.map(answer => (
+              {question.answers.map((answer) => (
                 <Button
                   key={answer.id}
                   text={answer.text}
@@ -96,7 +99,7 @@ class Quiz extends React.Component {
           </View>
 
           <Text style={styles.text}>
-            {`${this.state.correctCount}/${this.state.totalCount}`}
+            {`correct: ${this.state.correctCount}/ total questions: ${this.state.totalCount}`}
           </Text>
         </SafeAreaView>
         <Alert
